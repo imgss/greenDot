@@ -1,0 +1,19 @@
+{
+    "name": "greendot",
+    "version": "1.0.0",
+    "description": "learn node.js",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "lodash": "^4.17.4"
+    },
+    "dependencies": {
+        "cheerio": "^0.22.0",
+        "lodash": "4.2.0",
+        "chart.js": "2.4.0"
+    }
+}
