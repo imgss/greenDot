@@ -1,0 +1,12 @@
+doctype html
+html
+  head
+    title greenDot
+    block scripts
+      script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js')
+  body
+    p #{dayData}
+    canvas#bar
+    block scripts
+      script(src='../myChart.js')
+

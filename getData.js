@@ -2,6 +2,7 @@ var https = require('https'),
     eventEmitter = require("events").EventEmitter,
     http = require('http');
 var cheerio = require('cheerio');
+var app = require('./express.js');
 var _ = require('lodash');
 var fs = require('fs');
 var queryStr = 'https://github.com/ruanyf';
@@ -31,11 +32,13 @@ function getData(url) {
 }
 getData(queryStr);
 emitter.on('dataDone', function(data) {
-    http.createServer(function(req, res) {
-        res.writeHead(200);
-        res.end(data.toString());
-        console.log('done');
-    }).listen(3000, '127.0.0.1');
+    // http.createServer(function(req, res) {
+    //     res.setHeader('Content-Type', 'text/html');
+    //     res.writeHead(200);
+    //     res.end('data.toString()');
+    //     console.log('done');
+    // }).listen(3000, '127.0.0.1');
+    app(data);
 
 })
 
