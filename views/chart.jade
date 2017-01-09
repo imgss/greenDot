@@ -5,8 +5,43 @@ html
     block scripts
       script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js')
   body
-    p #{dayData}
-    canvas#bar
-    block scripts
-      script(src='../myChart.js')
+    p(id='week' style='display:none') #{weekData}
+    p(id='month' style='display:none')  #{monthData}
+    canvas(id='bar' width='800' height='600')
+    script(type='text/javascript').
+      var ctx = document.querySelector('#bar').getContext("2d");
+      var mdstr='#{monthData}'.replace(/\&quot\;/g,'"');
+      var monthdata= JSON.parse(mdstr);//解析成对象
+      console.log(monthdata);
+      var monthTotal={};
+      for(key in monthdata){
+        if (monthdata.hasOwnProperty(key)){
+        monthTotal[key]=monthdata[key].reduce(function(prev,cur){
+          return prev + cur.data;
+          console.log(a.data);
+        },0);
+        console.log(monthTotal);
+        }
+      }
+      var wdtmp='#{weekData}'.replace(/\&quot\;/g,'"')
+      var wd= JSON.parse(wdtmp);
+      console.log(wd);
+      var data = {
+      labels: null,
+      title:'月贡献值表',
+      datasets: [{
+        fillColor: "rgba(220,220,220,0.5)",
+        strokeColor: "rgba(220,220,220,1)",
+        data: null
+        }]
+      }
+      data.labels=Object.keys(monthTotal);
+      data.data=Object.values(monthTotal);
+      new Chart(ctx,
+      {type: 'bar',
+        data: data,
+        options: {
+              responsive: false
+          }
+      });
 
