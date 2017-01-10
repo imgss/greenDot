@@ -5,10 +5,10 @@ var cheerio = require('cheerio');
 var app = require('./express.js');
 var _ = require('lodash');
 var fs = require('fs');
-var queryStr = 'https://github.com/ruanyf';
 var emitter = new eventEmitter();
 
-function getData(url) {
+function getData(user) {
+    var url = 'https://github.com/' + user;
     var dayDatas = [];
     var pageStr = '';
     var req = https.get(url, function(res) {
@@ -37,22 +37,19 @@ function getData(url) {
                 return (o.date.split('-'))[1];
             });
             //console.log(JSON.stringify(monthDatas));
-            emitter.emit('dataDone', JSON.stringify(weekDatas), JSON.stringify(monthDatas));
-
-
+            emitter.emit('dataDone', JSON.stringify(weekDatas), JSON.stringify(monthDatas), user);
         });
     });
 }
-getData(queryStr);
-emitter.on('dataDone', function(weekdata, monthdata) {
-    // http.createServer(function(req, res) {
-    //     res.setHeader('Content-Type', 'text/html');
-    //     res.writeHead(200);
-    //     res.end('data.toString()');
-    //     console.log('done');
-    // }).listen(3000, '127.0.0.1');
-    app(weekdata, monthdata);
+getData('zhangxinxu');
+emitter.on('dataDone', function(weekdata, monthdata, user) {
+        // http.createServer(function(req, res) {
+        //     res.setHeader('Content-Type', 'text/html');
+        //     res.writeHead(200);
+        //     res.end('data.toString()');
+        //     console.log('done');
+        // }).listen(3000, '127.0.0.1');
+        app(weekdata, monthdata, user);
 
-})
-
-// module.exports = getData;
+    })
+    // module.exports = getData;

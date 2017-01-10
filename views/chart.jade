@@ -1,47 +1,47 @@
 doctype html
 html
   head
-    title greenDot
-    block scripts
-      script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js')
+    title greenDot-#{user}
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js')
   body
-    p(id='week' style='display:none') #{weekData}
-    p(id='month' style='display:none')  #{monthData}
-    canvas(id='bar' width='800' height='600')
+    h1(id='user' style='text-align:center') #{user}的GitHub-2016
+    canvas(id='bar' width='800' height='400')
     script(type='text/javascript').
       var ctx = document.querySelector('#bar').getContext("2d");
       var mdstr='#{monthData}'.replace(/\&quot\;/g,'"');
       var monthdata= JSON.parse(mdstr);//解析成对象
       console.log(monthdata);
-      var monthTotal={};
+      var monthTotal={};//一个月份和总贡献值的对象{‘01’：23 ...}
       for(key in monthdata){
         if (monthdata.hasOwnProperty(key)){
         monthTotal[key]=monthdata[key].reduce(function(prev,cur){
           return prev + cur.data;
-          console.log(a.data);
         },0);
-        console.log(monthTotal);
         }
       }
+      var labels=Object.keys(monthTotal).sort();
+      var values=[];
+      labels.forEach(function(i){
+        values.push(monthTotal[i]);
+      });
       var wdtmp='#{weekData}'.replace(/\&quot\;/g,'"')
       var wd= JSON.parse(wdtmp);
-      console.log(wd);
       var data = {
-      labels: null,
+      labels: labels,
       title:'月贡献值表',
       datasets: [{
-        fillColor: "rgba(220,220,220,0.5)",
-        strokeColor: "rgba(220,220,220,1)",
-        data: null
+        label: '月活跃度',
+        backgroundColor: "#44a340",
+        borderColor: "rgba(220,220,220,1)",
+        data: values
         }]
-      }
-      data.labels=Object.keys(monthTotal);
-      data.data=Object.values(monthTotal);
+      };
       new Chart(ctx,
       {type: 'bar',
         data: data,
+        xAxisID:'月份',
         options: {
-              responsive: false
+              responsive: true
           }
       });
 

@@ -1,0 +1,26 @@
+doctype html
+html
+  head
+    title greenDot
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js')
+  body
+    p 请输入你的GitHub ID
+    input(id='user' placeholder='请输入你的ID')
+    button 提交
+    div(id='container')
+    script.
+      var button=document.querySelector('button');
+      button.addEventListener('click',function(){
+        var input=document.querySelector('#user');
+        if (!input.value){
+          return false;
+        }
+        var xhr=new XMLHttpRequest();
+        url='/'+input.value;
+        xhr.open('get',url,true);
+        xhr.onreadystatechange=function(){
+          if(xhr.readyState == 4){
+            if
+        }
+
+      })
