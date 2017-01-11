@@ -7,6 +7,8 @@ greenDot
 * 2017-1-11 实现前端交互，项目有三条路由，localhost:3000/对应输入github用户名页面，/user/:id路由对应在新页面显示表格，/ajax/:id对应ajax请求在当前页面显示表格。
 
 ##应用截图
+
+    图中的数据分别来自imgss,阮一峰和张鑫旭:grin:
 ![](https://github.com/imgss/greenDot/raw/master/image/chart.PNG "chart截图")
 
 ##ToDo
