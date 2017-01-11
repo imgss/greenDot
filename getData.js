@@ -2,7 +2,6 @@ var https = require('https'),
     eventEmitter = require("events").EventEmitter,
     http = require('http');
 var cheerio = require('cheerio');
-var app = require('./express.js');
 var _ = require('lodash');
 var fs = require('fs');
 var emitter = new eventEmitter();
@@ -37,19 +36,24 @@ function getData(user) {
                 return (o.date.split('-'))[1];
             });
             //console.log(JSON.stringify(monthDatas));
-            emitter.emit('dataDone', JSON.stringify(weekDatas), JSON.stringify(monthDatas), user);
+            emitter.emit(user + 'datadone', JSON.stringify(weekDatas), JSON.stringify(monthDatas), user); //为了适配jade,对ajax请求不友好。。
         });
     });
 }
-getData('zhangxinxu');
-emitter.on('dataDone', function(weekdata, monthdata, user) {
-        // http.createServer(function(req, res) {
-        //     res.setHeader('Content-Type', 'text/html');
-        //     res.writeHead(200);
-        //     res.end('data.toString()');
-        //     console.log('done');
-        // }).listen(3000, '127.0.0.1');
-        app(weekdata, monthdata, user);
+// getData('zhangxinxu');
+// emitter.on('dataDone', function(weekdata, monthdata, user) {
+//     // http.createServer(function(req, res) {
+//     //     res.setHeader('Content-Type', 'text/html');
+//     //     res.writeHead(200);
+//     //     res.end('data.toString()');
+//     //     console.log('done');
+//     // }).listen(3000, '127.0.0.1');
+//     app(weekdata, monthdata, user);
 
-    })
-    // module.exports = getData;
+// })
+
+module.exports = {
+    getData: getData,
+    emitter: emitter
+
+}

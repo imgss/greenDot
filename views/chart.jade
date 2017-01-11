@@ -10,13 +10,12 @@ html
       var ctx = document.querySelector('#bar').getContext("2d");
       var mdstr='#{monthData}'.replace(/\&quot\;/g,'"');
       var monthdata= JSON.parse(mdstr);//解析成对象
-      console.log(monthdata);
+      //console.log(monthdata);
       var monthTotal={};//一个月份和总贡献值的对象{‘01’：23 ...}
       for(key in monthdata){
         if (monthdata.hasOwnProperty(key)){
         monthTotal[key]=monthdata[key].reduce(function(prev,cur){
-          return prev + cur.data;
-        },0);
+          return prev + cur.data;},0);
         }
       }
       var labels=Object.keys(monthTotal).sort();
@@ -24,7 +23,7 @@ html
       labels.forEach(function(i){
         values.push(monthTotal[i]);
       });
-      var wdtmp='#{weekData}'.replace(/\&quot\;/g,'"')
+      var wdtmp='#{weekData}'.replace(/\&quot\;/g,'"');
       var wd= JSON.parse(wdtmp);
       var data = {
       labels: labels,
