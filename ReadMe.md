@@ -5,10 +5,11 @@ greenDot
 ##更新日志
 * 2017.1.10 实现的是被动显示表格，在后端修改github用户名(user变量)，前端负责显示表格，无法交互
 * 2017-1-11 实现前端交互，项目有三条路由，localhost:3000/对应输入github用户名页面，/user/:id路由对应在新页面显示表格，/ajax/:id对应ajax请求在当前页面显示表格。
+* 2017-1-12 express增加静态资源,增加bootstrap,优化界面，优化代码结构 bug:'Error: Can't set headers after they are sent.'
 
 ##应用截图
 
-    图中的数据分别来自imgss,阮一峰和张鑫旭:grin:
+图中的数据分别来自imgss,阮一峰和张鑫旭:grin:
 ![](https://github.com/imgss/greenDot/raw/master/image/chart.PNG "chart截图")
 
 ##ToDo

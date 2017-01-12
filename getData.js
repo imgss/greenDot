@@ -40,17 +40,6 @@ function getData(user) {
         });
     });
 }
-// getData('zhangxinxu');
-// emitter.on('dataDone', function(weekdata, monthdata, user) {
-//     // http.createServer(function(req, res) {
-//     //     res.setHeader('Content-Type', 'text/html');
-//     //     res.writeHead(200);
-//     //     res.end('data.toString()');
-//     //     console.log('done');
-//     // }).listen(3000, '127.0.0.1');
-//     app(weekdata, monthdata, user);
-
-// })
 
 module.exports = {
     getData: getData,

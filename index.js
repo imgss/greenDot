@@ -3,11 +3,11 @@ var app = express();
 var data = require('./getData');
 app.set('views', './views');
 app.set('view engine', 'jade');
-
+app.use(express.static('public'));
 app.get('/', function(req, res) {
     res.render('index.jade');
 });
-app.get('/user/:id', function(req, res) {
+app.get('/user/:id', function(req, res) { //如果直接写路由/：id会导致与下面路由重叠，然后报错
     var user = req.params.id;
     data.getData(user);
     data.emitter.on(user + 'datadone', function(wdata, mdata, user) {
