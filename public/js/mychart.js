@@ -51,19 +51,26 @@ button.addEventListener('click', function() {
                     canvas.id = id;
                     return canvas;
                 }
-                if (!document.getElementById('bar')) {
-                    var cvsBar = createCanvas('bar');
-                    container.appendChild(cvsBar);
-                }
+                container.innerHTML = '';
+                var cvsBar = createCanvas('bar');
+                container.appendChild(cvsBar);
                 var cvsBar = document.getElementById('bar');
-                console.log(cvsBar);
                 ctx = cvsBar.getContext('2d');
-                new Chart(ctx, {
+                ctx.clearRect(0, 0, cvsBar.width, cvsBar.height);
+                var chart = new Chart(ctx, {
                     type: 'bar',
                     data: chartdata,
                     xAxisID: '月份',
                     options: {
-                        responsive: true
+                        responsive: true,
+                        layout: {
+                            padding: 20
+                        },
+                        title: {
+                            display: true,
+                            text: Alldata.user + '2016年活跃度',
+                            fontSize: 24
+                        }
                     }
                 });
                 container.querySelector('.title').innerHTML = Alldata.user + '2016年活跃度'

@@ -18,8 +18,8 @@ html
           span.input-group-btn
             button(id='ajax' type="button" class="btn btn-default") ajax提交
             button(id='newpage' type="button" class="btn btn-default") 刷新提交
-  div(id='container' )
-    h3(class='title' style='text-align:center') 
+  div.container
+    div#container.row
   script(src='/js/mychart.js')
   script.
     document.querySelector('#newpage').addEventListener('click',function(){
