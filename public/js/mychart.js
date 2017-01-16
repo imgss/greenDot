@@ -1,6 +1,13 @@
-var button = document.querySelector('#ajax');
-var container = document.getElementById('container');
+var $ = function(sel) {
+    return document.querySelector(sel);
+}
+var button = document.querySelector('#ajax'),
+    preloader = document.querySelector('#preloader5'),
+    pk = document.querySelector('#pk'),
+    container = document.getElementById('container');
 button.addEventListener('click', function() {
+    this.disabled = true; //禁用button
+    preloader.style.display = "block";
     var input = document.querySelector('#user');
     if (!input.value) {
         input.focus();
@@ -8,7 +15,6 @@ button.addEventListener('click', function() {
     }
     var xhr = new XMLHttpRequest();
     url = window.location.href + 'ajax/' + input.value;
-    console.log(url);
 
     function data2label(data) { //请求的数据生成chart label和value数据
         var monthdata = JSON.parse(data);
@@ -31,9 +37,10 @@ button.addEventListener('click', function() {
     xhr.open('get', url, true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState  ==  4) {
+            button.disabled = false;
+            preloader.style.display = "none";
             if (xhr.status >= 200 && xhr.status < 300 || xhr.status == 304) {
                 var Alldata = JSON.parse(xhr.responseText);
-                console.log(Alldata);
                 var chartD = data2label(Alldata.monthData);
                 var chartdata = {
                     labels: chartD.chartLabel,
@@ -73,7 +80,6 @@ button.addEventListener('click', function() {
                         }
                     }
                 });
-                container.querySelector('.title').innerHTML = Alldata.user + '2016年活跃度'
 
             } else {
                 alert("Request was unsuccessful: " + xhr.status);
@@ -82,3 +88,24 @@ button.addEventListener('click', function() {
     }
     xhr.send(null);
 });
+
+function toggleInput() {
+    var single = $('#single'),
+        vs = $('#vs');
+    if (getComputedStyle(single).display !== 'none') {
+        console.log(getComputedStyle(single).display);
+        single.style.display = 'none';
+        vs.style.display = 'table';
+    } else {
+        single.style.display = 'table';
+        vs.style.display = 'none';
+
+    }
+
+}
+pk.addEventListener('click', function() {
+    getComputedStyle(this).color == 'rgb(255, 255, 255)' ? this.style.color = '#fc6c22' : this.style.color = '#fff';
+    console.log(getComputedStyle(this).color);
+    toggleInput();
+
+})

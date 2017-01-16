@@ -4,6 +4,8 @@ html
     link(title="greenDot" href="/img/icon.png" rel="icon")
     meta(name="viewport" content="width=device-width, initial-scale=1")
     link(rel="stylesheet" href="/bootstrap/css/bootstrap.min.css")
+    link(rel="stylesheet" href="css/preloader.css")
+    link(rel="stylesheet" href="css/style.css")
     title greenDot
     script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.js')
   body
@@ -11,15 +13,25 @@ html
     div.row
       div.col-lg-6
         span(style='color:#6cc644; font-size:2em') GreenDot
+        span(id='pk') 
+          em PK with someone
       form(class='form-inline col-lg-6')
-        div.input-group
+        div.input-group#single
           label(class="sr-only" for="user") 搜索用户
           input(id='user' type='text' placeholder='请输入你的GitHub ID' class='form-control')
           span.input-group-btn
             button(id='ajax' type="button" class="btn btn-default") ajax提交
             button(id='newpage' type="button" class="btn btn-default") 刷新提交
+        div.input-group#vs
+          label(class="sr-only" for="user") 搜索用户
+          input(id='user' type='text' placeholder='a的GitHub ID' class='form-control')
+          span.input-group-addon vs
+          input(id='user' type='text' placeholder='b的GitHub ID' class='form-control')
+          span.input-group-btn
+            button(id='go' type="button" class="btn btn-default") go!
   div.container
     div#container.row
+  div#preloader5
   script(src='/js/mychart.js')
   script.
     document.querySelector('#newpage').addEventListener('click',function(){
