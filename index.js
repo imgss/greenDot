@@ -27,4 +27,24 @@ app.get('/ajax/:id', function(req, res) {
         res.end();
     });
 });
+app.get(/pk/, function(req, res) {
+    console.log(req.ip);
+    var userA = req.query.userA;
+    var userB = req.query.userB;
+    console.log(userA, userB);
+    data.getData(userA);
+    data.getData(userB);
+    data.emitter.once(userA + 'datadone', function(wdata, mdata, user) {
+        console.log(userA + 'datadone');
+        var userA_wdata = wdata,
+            userA = user;
+        data.emitter.once(userB + 'datadone', function(wdata, mdata, user) {
+            console.log(userA + 'datadone');
+            var userB_wdata = wdata,
+                userB = user;
+            res.status(200).json({ userA: { name: userA, wdata: userA_wdata }, userB: { name: userB, wdata: userB_wdata } });
+            res.end();
+        });
+    });
+});
 app.listen(3000);

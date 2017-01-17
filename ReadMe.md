@@ -8,12 +8,13 @@ greenDot
 * 2017-1-12 express增加静态资源,增加bootstrap,优化界面，优化代码结构 bug:'Error: Can't set headers after they are sent.'
 * 2017-1-13 修复再次请求相同用户出现Can't set headers after they are sent BUG，方法是将on监听改为once监听。计划用promise代替eventEmitter失败。。
 * 2017-1-16 增加pk模式的视图，点击pk with someone会切换到pk模式输入，要求输入两个id
+* 2017-1-17 实现pk模式，将两个id的周活跃度用折线图表示出来
 ##应用截图
 
 图中的数据分别来自imgss,阮一峰和张鑫旭:grin:
 ![](https://github.com/imgss/greenDot/raw/master/image/chart.PNG "chart截图")
 ![](https://github.com/imgss/greenDot/raw/master/image/pc.PNG "chart截图")
-
+<img src="https://github.com/imgss/greenDot/raw/master/image/pk.PNG" alt="pk模式" width='500px'>
 ##ToDo
 
 * 优化界面
@@ -22,8 +23,10 @@ greenDot
 
 ##体验一下
 
-git clone https://github.com/imgss/greenDot.git
+1. git clone https://github.com/imgss/greenDot.git
 
-npm install
+2. npm install
 
-node index(暂时)
+3. node index(暂时)
+
+4. 打开浏览器`http://localhost:3000`
