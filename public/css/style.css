@@ -7,3 +7,8 @@
 #vs {
     display: none;
 }
+
+#container {
+    text-align: center;
+    font-size: 2em;
+}

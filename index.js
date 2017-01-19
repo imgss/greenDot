@@ -26,9 +26,13 @@ app.get('/ajax/:id', function(req, res) {
         res.status(200).json({ weekData: wdata, monthData: mdata, user: user });
         res.end();
     });
+    data.emitter.once(user + 'error', function(status, user) {
+        console.log(user + 'error', status);
+        res.status(200).json({ error: status, user: user });
+        res.end();
+    });
 });
 app.get(/pk/, function(req, res) {
-    console.log(req.ip);
     var userA = req.query.userA;
     var userB = req.query.userB;
     console.log(userA, userB);
@@ -39,7 +43,7 @@ app.get(/pk/, function(req, res) {
         var userA_wdata = wdata,
             userA = user;
         data.emitter.once(userB + 'datadone', function(wdata, mdata, user) {
-            console.log(userA + 'datadone');
+            console.log(userB + 'datadone');
             var userB_wdata = wdata,
                 userB = user;
             res.status(200).json({ userA: { name: userA, wdata: userA_wdata }, userB: { name: userB, wdata: userB_wdata } });
