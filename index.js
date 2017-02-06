@@ -19,9 +19,9 @@ app.get('/ajax/:id', function(req, res) {
     console.log('ni hao');
     var user = req.params.id;
     console.log(user);
-    data.getData(user);
+    data.getData(user); //获取user的小绿点数据
 
-    data.emitter.once(user + 'datadone', function(wdata, mdata, user) {
+    data.emitter.once(user + 'datadone', function(wdata, mdata, user) { //监听datadone事件
         console.log(user + 'datadone');
         res.status(200).json({ weekData: wdata, monthData: mdata, user: user });
         res.end();

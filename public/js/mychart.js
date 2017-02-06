@@ -3,17 +3,18 @@ var $ = function(sel) {
 }
 var button = $('#ajax'),
     preloader = $('#preloader5'),
-    pk = $('#pk'),
+    pk = $('#pk'), //开启pk模式
     container = $('#container'),
     pkGo = $('#go');
 button.addEventListener('click', function() {
     this.disabled = true; //禁用button
-    preloader.style.display = "block";
+    preloader.style.display = "block"; //显示加载动画
     var input = $('#user');
     if (!input.value) {
         input.focus();
         return false;
     }
+    getUserInfo(input.value);
     var xhr = new XMLHttpRequest();
     url = window.location.href + 'ajax/' + input.value;
     xhr.open('get', url, true);

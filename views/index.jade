@@ -8,6 +8,7 @@ html
     link(rel="stylesheet" href="css/style.css")
     title greenDot
     script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.js')
+    script(src='//cdn.bootcss.com/jquery/3.1.1/jquery.min.js')
   body
   div.container(style='padding:5px; background-color:rgba(0,0,0,0.8);')
     div.row
@@ -30,8 +31,10 @@ html
           span.input-group-btn
             button(id='go' type="button" class="btn btn-default") go!
   div.container
+    div#userinfo.row
     div#container.row
   div#preloader5
+  script(src='/js/getUserInfo.js')
   script(src='/js/mychart.js')
   script.
     document.querySelector('#newpage').addEventListener('click',function(){

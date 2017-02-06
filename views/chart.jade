@@ -4,13 +4,16 @@ html
     link(title="greenDot" href="/img/icon.png" rel="icon")
     title greenDot-#{user}
     script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js')
-  body
+    script(src='//cdn.bootcss.com/jquery/3.1.1/jquery.min.js')
+  body(style='margin:0 10%')
     h1(id='user' style='text-align:center') #{user}的GitHub-2016
+    div#userinfo
     canvas(id='bar' width='800' height='400')
+    script(src='/js/getUserInfo.js')
     script(type='text/javascript').
       var ctx = document.querySelector('#bar').getContext("2d");
       var mdstr='#{monthData}'.replace(/\&quot\;/g,'"');
-      var monthdata= JSON.parse(mdstr);//解析成对象
+      var monthdata= JSON.parse(mdstr);//将服务器传给模板的数据解析成对象
       //console.log(monthdata);
       var monthTotal={};//一个月份和总贡献值的对象{‘01’：23 ...}
       for(key in monthdata){
