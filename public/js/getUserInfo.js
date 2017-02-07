@@ -1,5 +1,6 @@
-function getUserInfo(username) { //填充信息
+function getUserInfo(username, selector) { //填充信息
     console.log(username);
+    selector = selector || '#userinfo';
     jQuery.ajax({
         'url': 'https://api.github.com/users/' + username,
         'dataType': 'jsonp',
@@ -10,7 +11,7 @@ function getUserInfo(username) { //填充信息
                   <li><small>个性签名:${dat.data.bio||'暂无'}</small></li>
                   <li><small>加入时间:${dat.data.created_at.substring(0,10) }</small></li>`
             str += '</ul>';
-            jQuery('#userinfo').html(str);
+            jQuery(selector).html(str);
         }
     });
 };

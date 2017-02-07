@@ -8,13 +8,15 @@ var button = $('#ajax'),
     pkGo = $('#go');
 button.addEventListener('click', function() {
     this.disabled = true; //禁用button
+    $('#user div:first-child').innerHTML = '';
+    $('#user div:last-child').innerHTML = ''; //代码开始乱的不行了，一直在repeat self
     preloader.style.display = "block"; //显示加载动画
     var input = $('#user');
     if (!input.value) {
         input.focus();
         return false;
     }
-    getUserInfo(input.value);
+    getUserInfo(input.value, '#userinfo');
     var xhr = new XMLHttpRequest();
     url = window.location.href + 'ajax/' + input.value;
     xhr.open('get', url, true);
@@ -97,13 +99,16 @@ button.addEventListener('click', function() {
 });
 go.addEventListener('click', function() {
     this.disabled = true; //禁用button
+    $('#userinfo').innerHTML = '';
     preloader.style.display = "block";
     var userA = $('#userA'),
         userB = $('#userB');
     if (!userA.value || !userB.value) {
         !userA.value ? userA.focus() : userB.focus();
         return false;
-    }
+    };
+    getUserInfo(userA.value, '#users div:first-child');
+    getUserInfo(userB.value, '#users div:last-child');
     var xhr = new XMLHttpRequest();
     url = window.location.href + 'pk' + '?' + 'userA=' + userA.value + '&userB=' + userB.value;
     console.log(url);

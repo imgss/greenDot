@@ -10,7 +10,8 @@ greenDot
 * 2017-1-16 增加pk模式的视图，点击pk with someone会切换到pk模式输入，要求输入两个id
 * 2017-1-17 实现pk模式，将两个id的周活跃度用折线图表示出来
 * 2017-1-19 对于id不存在的情况给出提示
-* 2017-2-6 jsonp请求github api获取user信息并显示
+* 2017-2-6  jsonp请求github api获取user信息并显示
+* 2017-2-7  pk模式也实现user信息展示，重写getUserInfo函数，使它更通用。
 
 ##应用截图
 
@@ -20,6 +21,7 @@ greenDot
 ![](https://github.com/imgss/greenDot/raw/master/image/chart.PNG "chart截图")
 ![](https://github.com/imgss/greenDot/raw/master/image/pc.PNG "chart截图")
 <img src="https://github.com/imgss/greenDot/raw/master/image/pk.PNG" alt="pk模式" width='500px'>
+<img src="https://github.com/imgss/greenDot/raw/master/image/users.PNG" alt="含个人信息" width='500px'>
 ##ToDo
 
 * 优化界面
