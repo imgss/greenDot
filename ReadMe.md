@@ -22,6 +22,7 @@ greenDot
 ![](https://github.com/imgss/greenDot/raw/master/image/pc.PNG "chart截图")
 <img src="https://github.com/imgss/greenDot/raw/master/image/pk.PNG" alt="pk模式" width='500px'>
 <img src="https://github.com/imgss/greenDot/raw/master/image/users.PNG" alt="含个人信息" width='500px'>
+
 ##ToDo
 
 * 优化界面
