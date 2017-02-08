@@ -1,14 +1,26 @@
-#pk {
-    color: #fff;
-    cursor: pointer;
-    text-decoration: none;
-}
-
-#vs {
-    display: none;
-}
-
-#container {
-    text-align: center;
-    font-size: 2em;
-}
+    #pk {
+        color: #fff;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    
+    #vs {
+        display: none;
+    }
+    
+    #container {
+        text-align: center;
+        font-size: 2em;
+    }
+    
+    #users div:first-child {
+        border: #aaa 1px solid;
+        list-style-type: none;
+        border-left: #529 3px solid
+    }
+    
+    #users div:last-child {
+        border: #aaa 1px solid;
+        list-style-type: none;
+        border-left: #f66 3px solid
+    }
