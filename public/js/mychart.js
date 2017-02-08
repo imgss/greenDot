@@ -5,7 +5,8 @@ var button = $('#ajax'),
     preloader = $('#preloader5'),
     pk = $('#pk'), //开启pk模式
     container = $('#container'),
-    pkGo = $('#go');
+    pkGo = $('#go'),
+    TIMEOUT = 10000;
 button.addEventListener('click', function() {
     this.disabled = true; //禁用button
     $('#users div:first-child').innerHTML = '';
@@ -20,6 +21,11 @@ button.addEventListener('click', function() {
     var xhr = new XMLHttpRequest();
     url = window.location.href + 'ajax/' + input.value;
     xhr.open('get', url, true);
+    xhr.timeout = TIMEOUT;
+    xhr.ontimeout = function() {
+        xhr.abort();
+        console.log('timeout');
+    }
     xhr.onreadystatechange = function() {
         if (xhr.readyState  ==  4) {
             button.disabled = false;
@@ -111,7 +117,6 @@ go.addEventListener('click', function() {
     getUserInfo(userB.value, '#users div:last-child');
     var xhr = new XMLHttpRequest();
     url = window.location.href + 'pk' + '?' + 'userA=' + userA.value + '&userB=' + userB.value;
-    console.log(url);
 
     function data2label(data) { //请求的数据生成chart label和value数据
         var weekdata = JSON.parse(data),
@@ -130,12 +135,14 @@ go.addEventListener('click', function() {
 
     }
     xhr.open('get', url, true);
+    xhr.timeout = TIMEOUT * 3;
     xhr.onreadystatechange = function() {
         if (xhr.readyState  ==  4) {
             go.disabled = false;
             preloader.style.display = "none";
             if (xhr.status >= 200 && xhr.status < 300 || xhr.status == 304) {
                 var Alldata = JSON.parse(xhr.responseText);
+                console.log(Alldata);
                 var userA_data = data2label(Alldata.userA.wdata);
                 var userB_data = data2label(Alldata.userB.wdata);
                 var chartdata = {
@@ -191,6 +198,10 @@ go.addEventListener('click', function() {
                 alert("Request was unsuccessful: " + xhr.status);
             }
         }
+    };
+    xhr.ontimeout = function() {
+        xhr.abort();
+        console.log('timeout');
     }
     xhr.send(null);
 

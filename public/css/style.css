@@ -13,13 +13,16 @@
         font-size: 2em;
     }
     
+    #userinfo,
     #users div:first-child {
+        padding-left: 5%;
         border: #aaa 1px solid;
         list-style-type: none;
         border-left: #529 3px solid
     }
     
     #users div:last-child {
+        padding-left: 5%;
         border: #aaa 1px solid;
         list-style-type: none;
         border-left: #f66 3px solid
