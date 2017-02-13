@@ -18,8 +18,8 @@ button.addEventListener('click', function() {
         return false;
     }
     getUserInfo(input.value, '#userinfo');
-    var xhr = new XMLHttpRequest();
     url = window.location.href + 'ajax/' + input.value;
+    var xhr = new XMLHttpRequest();
     xhr.open('get', url, true);
     xhr.timeout = TIMEOUT;
     xhr.ontimeout = function() {
@@ -33,24 +33,6 @@ button.addEventListener('click', function() {
             if (xhr.status >= 200 && xhr.status < 300 || xhr.status == 304) {
                 var Alldata = JSON.parse(xhr.responseText);
                 if (!Alldata.error) {
-                    function data2label(data) { //请求的数据生成chart label和value数据
-                        var monthdata = JSON.parse(data);
-                        var monthTotal = {}; //一个月份和总贡献值的对象{‘01’：23 ...}
-                        for (key in monthdata) {
-                            if (monthdata.hasOwnProperty(key)) {
-                                monthTotal[key] = monthdata[key].reduce(function(prev, cur) {
-                                    return prev + cur.data;
-                                }, 0);
-                            }
-                        }
-                        var labels = Object.keys(monthTotal).sort();
-                        var values = [];
-                        labels.forEach(function(i) {
-                            values.push(monthTotal[i]);
-                        });
-                        return { chartLabel: labels, chartvalue: values };
-
-                    }
 
                     var chartD = data2label(Alldata.monthData);
                     var chartdata = {
@@ -64,11 +46,6 @@ button.addEventListener('click', function() {
                         }]
                     };
                     //绘制chart
-                    function createCanvas(id) {
-                        var canvas = document.createElement('canvas');
-                        canvas.id = id;
-                        return canvas;
-                    }
                     container.innerHTML = '';
                     var cvsBar = createCanvas('bar');
                     container.appendChild(cvsBar);
@@ -117,23 +94,6 @@ go.addEventListener('click', function() {
     getUserInfo(userB.value, '#users div:last-child');
     var xhr = new XMLHttpRequest();
     url = window.location.href + 'pk' + '?' + 'userA=' + userA.value + '&userB=' + userB.value;
-
-    function data2label(data) { //请求的数据生成chart label和value数据
-        var weekdata = JSON.parse(data),
-            labels = [],
-            values = [];
-        for (var i = 0; i < weekdata.length; i++) {
-            labels.push((i + 1).toString());
-            var weektotal = weekdata[i].reduce(function(prev, curr) {
-                return prev + curr.data;
-
-            }, 0);
-            values.push(weektotal);
-        }
-
-        return { chartLabel: labels, chartvalue: values };
-
-    }
     xhr.open('get', url, true);
     xhr.timeout = TIMEOUT * 3;
     xhr.onreadystatechange = function() {
@@ -143,8 +103,8 @@ go.addEventListener('click', function() {
             if (xhr.status >= 200 && xhr.status < 300 || xhr.status == 304) {
                 var Alldata = JSON.parse(xhr.responseText);
                 console.log(Alldata);
-                var userA_data = data2label(Alldata.userA.wdata);
-                var userB_data = data2label(Alldata.userB.wdata);
+                var userA_data = data2label_pk(Alldata.userA.wdata);
+                var userB_data = data2label_pk(Alldata.userB.wdata);
                 var chartdata = {
                     labels: userA_data.chartLabel,
                     title: '月贡献值表',
@@ -166,11 +126,6 @@ go.addEventListener('click', function() {
                     ]
                 };
                 //绘制chart
-                function createCanvas(id) {
-                    var canvas = document.createElement('canvas');
-                    canvas.id = id;
-                    return canvas;
-                }
                 container.innerHTML = '';
                 var cvsBar = createCanvas('bar');
                 container.appendChild(cvsBar);
@@ -205,7 +160,75 @@ go.addEventListener('click', function() {
     }
     xhr.send(null);
 
-})
+});
+
+function createCanvas(id) {
+    var canvas = document.createElement('canvas');
+    canvas.id = id;
+    return canvas;
+}
+
+function data2label(data) { //请求的数据生成chart label和value数据
+    var monthdata = JSON.parse(data);
+    var monthTotal = {}; //一个月份和总贡献值的对象{‘01’：23 ...}
+    for (key in monthdata) {
+        if (monthdata.hasOwnProperty(key)) {
+            monthTotal[key] = monthdata[key].reduce(function(prev, cur) {
+                return prev + cur.data;
+            }, 0);
+        }
+    }
+    var labels = Object.keys(monthTotal).sort();
+    var values = [];
+    labels.forEach(function(i) {
+        values.push(monthTotal[i]);
+    });
+    return { chartLabel: labels, chartvalue: values };
+
+}
+
+function data2label_pk(data) { //请求的数据生成chart label和value数据
+    var weekdata = JSON.parse(data),
+        labels = [],
+        values = [];
+    for (var i = 0; i < weekdata.length; i++) {
+        labels.push((i + 1).toString());
+        var weektotal = weekdata[i].reduce(function(prev, curr) {
+            return prev + curr.data;
+
+        }, 0);
+        values.push(weektotal);
+    }
+
+    return { chartLabel: labels, chartvalue: values };
+
+}
+
+
+var getJSON = function(url, timeout) {
+    var promise = new Promise(function(resolve, reject) {
+        var client = new XMLHttpRequest();
+        client.open("GET", url);
+        client.onreadystatechange = handler;
+        client.responseType = "json";
+        client.setRequestHeader("Accept", "application/json");
+        client.send();
+
+        function handler() {
+            if (this.readyState !== 4) {
+                return;
+            }
+            if (this.status === 200) {
+                resolve(this.response);
+            } else {
+                reject(new Error(this.statusText));
+            }
+        };
+    });
+
+    return promise;
+};
+
 
 function toggleInput() {
     var single = $('#single'),

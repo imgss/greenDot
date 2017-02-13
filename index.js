@@ -47,7 +47,6 @@ app.get(/pk/, function(req, res) {
             var userB_wdata = wdata,
                 userB = user;
             res.status(200).json({ userA: { name: userA, wdata: userA_wdata }, userB: { name: userB, wdata: userB_wdata } });
-            console.log({ userA: { name: userA, wdata: userA_wdata }, userB: { name: userB, wdata: userB_wdata } });
             res.end();
         });
     });
