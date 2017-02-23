@@ -7,6 +7,39 @@ var button = $('#ajax'),
     container = $('#container'),
     pkGo = $('#go'),
     TIMEOUT = 10000;
+var getJSON = function(url) {
+    var promise = new Promise(function(resolve, reject) {
+        var client = new XMLHttpRequest();
+        client.open("GET", url);
+        client.onreadystatechange = handler;
+        client.responseType = "json";
+        client.setRequestHeader("Accept", "application/json");
+        client.timeout = TIMEOUT;
+        client.ontimeout = function() {
+            client.abort();
+            console.log('timeout');
+        }
+        client.send();
+
+        function handler() {
+            if (this.readyState !== 4) {
+                return;
+            }
+            if (this.status === 200) {
+                console.log('success');
+                resolve(this.response);
+            } else {
+                console.log('error');
+                reject(new Error(this.statusText));
+            }
+        };
+    });
+
+    return promise;
+};
+
+
+
 button.addEventListener('click', function() {
     this.disabled = true; //禁用button
     $('#users div:first-child').innerHTML = '';
@@ -19,66 +52,56 @@ button.addEventListener('click', function() {
     }
     getUserInfo(input.value, '#userinfo');
     url = window.location.href + 'ajax/' + input.value;
-    var xhr = new XMLHttpRequest();
-    xhr.open('get', url, true);
-    xhr.timeout = TIMEOUT;
-    xhr.ontimeout = function() {
-        xhr.abort();
-        console.log('timeout');
-    }
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState  ==  4) {
+    getJSON(url).then(function(json) {
             button.disabled = false;
             preloader.style.display = "none";
-            if (xhr.status >= 200 && xhr.status < 300 || xhr.status == 304) {
-                var Alldata = JSON.parse(xhr.responseText);
-                if (!Alldata.error) {
+            console.log(json);
+            var Alldata = json;
+            if (!Alldata.error) {
 
-                    var chartD = data2label(Alldata.monthData);
-                    var chartdata = {
-                        labels: chartD.chartLabel,
-                        title: '月贡献值表',
-                        datasets: [{
-                            label: '月活跃度',
-                            backgroundColor: "#44a340",
-                            borderColor: "rgba(220,220,220,1)",
-                            data: chartD.chartvalue
-                        }]
-                    };
-                    //绘制chart
-                    container.innerHTML = '';
-                    var cvsBar = createCanvas('bar');
-                    container.appendChild(cvsBar);
-                    var cvsBar = document.getElementById('bar');
-                    ctx = cvsBar.getContext('2d');
-                    ctx.clearRect(0, 0, cvsBar.width, cvsBar.height);
-                    var chart = new Chart(ctx, {
-                        type: 'bar',
-                        data: chartdata,
-                        xAxisID: '月份',
-                        options: {
-                            responsive: true,
-                            layout: {
-                                padding: 20
-                            },
-                            title: {
-                                display: true,
-                                text: Alldata.user + '2016年活跃度',
-                                fontSize: 24
-                            }
+                var chartD = data2label(Alldata.monthData);
+                var chartdata = {
+                    labels: chartD.chartLabel,
+                    title: '月贡献值表',
+                    datasets: [{
+                        label: '月活跃度',
+                        backgroundColor: "#44a340",
+                        borderColor: "rgba(220,220,220,1)",
+                        data: chartD.chartvalue
+                    }]
+                };
+                //绘制chart
+                container.innerHTML = '';
+                var cvsBar = createCanvas('bar');
+                container.appendChild(cvsBar);
+                var cvsBar = document.getElementById('bar');
+                ctx = cvsBar.getContext('2d');
+                ctx.clearRect(0, 0, cvsBar.width, cvsBar.height);
+                var chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: chartdata,
+                    xAxisID: '月份',
+                    options: {
+                        responsive: true,
+                        layout: {
+                            padding: 20
+                        },
+                        title: {
+                            display: true,
+                            text: Alldata.user + '2016年活跃度',
+                            fontSize: 24
                         }
-                    });
-                } else {
-                    // console.log(Alldata.error);
-                    container.innerHTML = "请检查id输入是否正确";
-                }
-
+                    }
+                });
             } else {
-                alert("Request was unsuccessful: " + xhr.status);
+                // console.log(Alldata.error);
+                container.innerHTML = "请检查id输入是否正确";
             }
-        }
-    }
-    xhr.send(null);
+
+        },
+        function(e) {
+            alert("Request was unsuccessful: " + e);
+        });
 });
 go.addEventListener('click', function() {
     this.disabled = true; //禁用button
@@ -92,74 +115,61 @@ go.addEventListener('click', function() {
     };
     getUserInfo(userA.value, '#users div:first-child');
     getUserInfo(userB.value, '#users div:last-child');
-    var xhr = new XMLHttpRequest();
-    url = window.location.href + 'pk' + '?' + 'userA=' + userA.value + '&userB=' + userB.value;
-    xhr.open('get', url, true);
-    xhr.timeout = TIMEOUT * 3;
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState  ==  4) {
+    var url = window.location.href + 'pk' + '?' + 'userA=' + userA.value + '&userB=' + userB.value;
+    getJSON(url).then(function(json) {
             go.disabled = false;
             preloader.style.display = "none";
-            if (xhr.status >= 200 && xhr.status < 300 || xhr.status == 304) {
-                var Alldata = JSON.parse(xhr.responseText);
-                console.log(Alldata);
-                var userA_data = data2label_pk(Alldata.userA.wdata);
-                var userB_data = data2label_pk(Alldata.userB.wdata);
-                var chartdata = {
-                    labels: userA_data.chartLabel,
-                    title: '月贡献值表',
-                    fill: false,
-                    lineTension: 0,
-                    pointRadius: 1,
-                    pointHitRadius: 10,
-                    borderWidth: 2,
-                    datasets: [{
-                            label: Alldata.userA.name,
-                            borderColor: "#529",
-                            data: userA_data.chartvalue
-                        },
-                        {
-                            label: Alldata.userB.name,
-                            borderColor: "#f66",
-                            data: userB_data.chartvalue
-                        }
-                    ]
-                };
-                //绘制chart
-                container.innerHTML = '';
-                var cvsBar = createCanvas('bar');
-                container.appendChild(cvsBar);
-                var cvsBar = document.getElementById('bar');
-                ctx = cvsBar.getContext('2d');
-                ctx.clearRect(0, 0, cvsBar.width, cvsBar.height);
-                var chart = new Chart(ctx, {
-                    type: 'line',
-                    data: chartdata,
-                    xAxisID: '周',
-                    options: {
-                        responsive: true,
-                        layout: {
-                            padding: 20
-                        },
-                        title: {
-                            display: true,
-                            text: Alldata.userA.name + ' VS ' + Alldata.userB.name,
-                            fontSize: 24
-                        }
+            var Alldata = json;
+            var userA_data = data2label_pk(Alldata.userA.wdata);
+            var userB_data = data2label_pk(Alldata.userB.wdata);
+            var chartdata = {
+                labels: userA_data.chartLabel,
+                title: '月贡献值表',
+                fill: false,
+                lineTension: 0,
+                pointRadius: 1,
+                pointHitRadius: 10,
+                borderWidth: 2,
+                datasets: [{
+                        label: Alldata.userA.name,
+                        borderColor: "#529",
+                        data: userA_data.chartvalue
+                    },
+                    {
+                        label: Alldata.userB.name,
+                        borderColor: "#f66",
+                        data: userB_data.chartvalue
                     }
-                });
+                ]
+            };
+            //绘制chart
+            container.innerHTML = '';
+            var cvsBar = createCanvas('bar');
+            container.appendChild(cvsBar);
+            var cvsBar = document.getElementById('bar');
+            ctx = cvsBar.getContext('2d');
+            ctx.clearRect(0, 0, cvsBar.width, cvsBar.height);
+            var chart = new Chart(ctx, {
+                type: 'line',
+                data: chartdata,
+                xAxisID: '周',
+                options: {
+                    responsive: true,
+                    layout: {
+                        padding: 20
+                    },
+                    title: {
+                        display: true,
+                        text: Alldata.userA.name + ' VS ' + Alldata.userB.name,
+                        fontSize: 24
+                    }
+                }
+            });
 
-            } else {
-                alert("Request was unsuccessful: " + xhr.status);
-            }
-        }
-    };
-    xhr.ontimeout = function() {
-        xhr.abort();
-        console.log('timeout');
-    }
-    xhr.send(null);
-
+        },
+        function(e) {
+            alert("Request was unsuccessful: " + xhr.status);
+        });
 });
 
 function createCanvas(id) {
@@ -203,31 +213,6 @@ function data2label_pk(data) { //请求的数据生成chart label和value数据
     return { chartLabel: labels, chartvalue: values };
 
 }
-
-
-var getJSON = function(url, timeout) {
-    var promise = new Promise(function(resolve, reject) {
-        var client = new XMLHttpRequest();
-        client.open("GET", url);
-        client.onreadystatechange = handler;
-        client.responseType = "json";
-        client.setRequestHeader("Accept", "application/json");
-        client.send();
-
-        function handler() {
-            if (this.readyState !== 4) {
-                return;
-            }
-            if (this.status === 200) {
-                resolve(this.response);
-            } else {
-                reject(new Error(this.statusText));
-            }
-        };
-    });
-
-    return promise;
-};
 
 
 function toggleInput() {
