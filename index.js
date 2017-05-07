@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var data = require('./getData');
+var userdb = require('./db')
 app.set('views', './views');
 app.set('view engine', 'jade');
 app.use(express.static('public'));
@@ -16,14 +17,24 @@ app.get('/user/:id', function(req, res) { //如果直接写路由/：id会导致
     });
 });
 app.get('/ajax/:id', function(req, res) {
-    console.log('ni hao');
     var user = req.params.id;
     console.log(user);
-    data.getData(user); //获取user的小绿点数据
+    userdb.read(user,function(doc){
+        if(doc){
+            console.log(doc.data);
+            res.status(200).json(doc.data);
+            res.end();
+        }else{
+            data.getData(user); //获取user的小绿点数据
+        }
+    })
+
 
     data.emitter.once(user + 'datadone', function(wdata, mdata, user) { //监听datadone事件
         console.log(user + 'datadone');
-        res.status(200).json({ weekData: wdata, monthData: mdata, user: user });
+        let userData = { weekData: wdata, monthData: mdata, user: user };
+        res.status(200).json(userData);
+        userdb.insert(user,userData);
         res.end();
     });
     data.emitter.once(user + 'error', function(status, user) {

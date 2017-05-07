@@ -6,7 +6,7 @@ greenDot
 * 2017-1-10 实现的是被动显示表格，在后端修改github用户名(user变量)，前端负责显示表格，无法交互
 * 2017-1-11 实现前端交互，项目有三条路由，localhost:3000/对应输入github用户名页面，/user/:id路由对应在新页面显示表格，/ajax/:id对应ajax请求在当前页面显示表格。
 * 2017-1-12 express增加静态资源,增加bootstrap,优化界面，优化代码结构 bug:'Error: Can't set headers after they are sent.'
-* 2017-1-13 修复再次请求相同用户出现Can't set headers after they are sent BUG，方法是将on监听改为once监听。计划用promise代替eventEmitter失败。。
+* 2017-1-13 修复再次请求相同用户出现Can't set headers after they are sent BUG，方法是将on监听改为once监听。
 * 2017-1-16 增加pk模式的视图，点击pk with someone会切换到pk模式输入，要求输入两个id
 * 2017-1-17 实现pk模式，将两个id的周活跃度用折线图表示出来
 * 2017-1-19 对于id不存在的情况给出提示
