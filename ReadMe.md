@@ -12,6 +12,7 @@ greenDot
 * 2017-1-19 对于id不存在的情况给出提示
 * 2017-2-6  jsonp请求github api获取user信息并显示
 * 2017-2-7  pk模式也实现user信息展示，重写getUserInfo函数，使它更通用。
+* 2017-5-7  mongoDb储存user数据，首先从db读取，如果没有，再去请求。
 
 ##应用截图
 
