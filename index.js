@@ -10,7 +10,7 @@ app.get('/', function(req, res) {
 });
 app.get('/user/:id', function(req, res) { //如果直接写路由/：id会导致与下面路由重叠，然后报错
     var user = req.params.id;
-    data.getData(user);
+    data.getData(user, year);
     data.emitter.once(user + 'datadone', function(wdata, mdata, user) { //如果是on,再次触发相同事件时会报错
         console.log(user + 'datadone');
         res.render('chart.jade', { weekData: wdata, monthData: mdata, user: user });
@@ -18,13 +18,14 @@ app.get('/user/:id', function(req, res) { //如果直接写路由/：id会导致
 });
 app.get('/ajax/:id', function(req, res) {
     var user = req.params.id;
-    console.log(user);
-    userdb.read(user,function(doc){
+    var year = req.query.year;
+    console.log(user, year);
+    userdb.read(user, year, function(doc){
         if(doc){//如果数据库中有
             res.status(200).json(doc.data);
             res.end();
         }else{
-            data.getData(user); //获取user的小绿点数据
+            data.getData(user, year); //获取user的小绿点数据
         }
     })
 

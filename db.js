@@ -5,6 +5,9 @@ var url = 'mongodb://localhost:27017/myproject';
 
 function insert(user, year, data){
     MongoClient.connect(url, function(err, db) {
+        if(err){
+            console.log('未开启mongodb')
+        }
         insertDocuments(db, function() {
             db.close();
         });
@@ -17,14 +20,17 @@ function insert(user, year, data){
         });
     }
 }
-function read(user,callback){
+function read(user, year, callback){
     console.log('read',user)
     MongoClient.connect(url, function(err, db) {
+        if(err){
+            console.log('未开启mongodb')
+        }
         var collection = db.collection('userData');
-        collection.findOne({user},function(err, doc) {
+        collection.findOne({user, year},function(err, doc) {
             callback(doc);
             db.close();
-    });
+        });
     });
 }
 module.exports={

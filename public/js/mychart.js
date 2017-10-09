@@ -51,11 +51,11 @@ button.addEventListener('click', function() {
         return false;
     }
     getUserInfo(input.value, '#userinfo');
-    var url = window.location.href + 'ajax/' + input.value + '?year=' + jQuery('#year span:first').text();
+    var year = jQuery('#year span:first').text();
+    var url = window.location.href + 'ajax/' + input.value + (/\d{4}/.test(year) ? '?year=' + year : '');
     getJSON(url).then(function(json) {
             button.disabled = false;
             preloader.style.display = "none";
-            console.log(json);
             var Alldata = json;
             if (!Alldata.error) {
 
@@ -88,7 +88,7 @@ button.addEventListener('click', function() {
                         },
                         title: {
                             display: true,
-                            text: Alldata.user + '2016年活跃度',
+                            text: Alldata.user + (/\d{4}/.test(year) ? year : new Date().getFullYear()) + '年活跃度',
                             fontSize: 24
                         }
                     }
