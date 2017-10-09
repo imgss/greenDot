@@ -13,7 +13,7 @@ greenDot
 * 2017-2-6  jsonp请求github api获取user信息并显示
 * 2017-2-7  pk模式也实现user信息展示，重写getUserInfo函数，使它更通用。
 * 2017-5-7  mongoDb储存user数据，首先从db读取，如果没有，再去请求。
-
+* 2017-10-9 实现可以查看多个年度的信息
 ##应用截图
 
 图中的数据分别来自imgss,阮一峰和张鑫旭:grin:
