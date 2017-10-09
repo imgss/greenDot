@@ -23,7 +23,7 @@ html
           input(id='user' type='text' placeholder='请输入你的GitHub ID' class='form-control')
           div.input-group-btn
             button(id='year' type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" )
-              选择年
+              span 选择年
               span.caret
             ul.dropdown-menu
               li 2017
@@ -47,6 +47,7 @@ html
   div#preloader5
   script(src='/js/getUserInfo.js')
   script(src='/js/mychart.js')
+  script(src='/js/page.js')
   script.
     document.querySelector('#newpage').addEventListener('click',function(){
       var input=document.querySelector('#user');
