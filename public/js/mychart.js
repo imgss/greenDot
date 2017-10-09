@@ -6,7 +6,7 @@ var button = $('#ajax'),
     pk = $('#pk'), //开启pk模式
     container = $('#container'),
     pkGo = $('#go'),
-    TIMEOUT = 10000;
+    TIMEOUT = 30000;
 var getJSON = function(url) {
     var promise = new Promise(function(resolve, reject) {
         var client = new XMLHttpRequest();
@@ -51,7 +51,7 @@ button.addEventListener('click', function() {
         return false;
     }
     getUserInfo(input.value, '#userinfo');
-    url = window.location.href + 'ajax/' + input.value;
+    var url = window.location.href + 'ajax/' + input.value + '?year=' + jQuery('#year span:first').text();
     getJSON(url).then(function(json) {
             button.disabled = false;
             preloader.style.display = "none";

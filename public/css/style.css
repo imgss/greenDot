@@ -28,7 +28,7 @@
         border-left: #f66 3px solid
     }
 
-    li:hover{
+    .dropdown-menu li:hover{
         background-color:rgb(38, 66, 221);
         color:#fff
     }

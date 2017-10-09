@@ -3,7 +3,7 @@ var MongoClient = require('mongodb').MongoClient
 // Connection URL
 var url = 'mongodb://localhost:27017/myproject';
 
-function insert(user,data){
+function insert(user, year, data){
     MongoClient.connect(url, function(err, db) {
         insertDocuments(db, function() {
             db.close();
@@ -12,7 +12,7 @@ function insert(user,data){
     var insertDocuments = function(db, callback) {
         var collection = db.collection('userData');
         // Insert some documents
-        collection.insertOne({user,data}, function(err, result) {
+        collection.insertOne({user, year, data}, function(err, result) {
             console.log('insert one');
         });
     }

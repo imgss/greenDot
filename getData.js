@@ -6,7 +6,7 @@ var _ = require('lodash');
 var fs = require('fs');
 var emitter = new eventEmitter();
 
-function getData(user) {
+function getData(user, year = new Date().getFullYear()) {
     var url = 'https://github.com/' + user;
     var dayDatas = [];
     var pageStr = '';
@@ -31,13 +31,13 @@ function getData(user) {
                 }
                 weekDatas = _.chunk(dayDatas, 7);
                 dayDatas = _.filter(dayDatas, function(o) { //过滤出2016年的数据
-                    return (o.date.split('-'))[0] == '2017';
+                    return (o.date.split('-'))[0] == year;
                 })
                 monthDatas = _.groupBy(dayDatas, function(o) {
                     return (o.date.split('-'))[1];
                 });
                 //console.log(JSON.stringify(monthDatas));
-                emitter.emit(user + 'datadone', JSON.stringify(weekDatas), JSON.stringify(monthDatas), user); //为了适配jade,对ajax请求不友好。。
+                emitter.emit(user + 'datadone', JSON.stringify(weekDatas), JSON.stringify(monthDatas), user, year); //为了适配jade,对ajax请求不友好。。
             });
         } else {
             emitter.emit(user + 'error', status, user);
