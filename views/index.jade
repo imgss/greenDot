@@ -9,6 +9,7 @@ html
     title greenDot
     script(src='/js/Chart.min.js')
     script(src='//cdn.bootcss.com/jquery/3.1.1/jquery.min.js')
+    script(src='https://cdn.bootcss.com/bootstrap/3.1.0/js/dropdown.min.js')
   body
   div.container(style='padding:5px; background-color:rgba(0,0,0,0.8);')
     div.row
@@ -20,7 +21,14 @@ html
         div.input-group#single
           label(class="sr-only" for="user") 搜索用户
           input(id='user' type='text' placeholder='请输入你的GitHub ID' class='form-control')
-          span.input-group-btn
+          div.input-group-btn
+            button(id='year' type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" )
+              选择年
+              span.caret
+            ul.dropdown-menu
+              li 2017
+              li 2016
+          div.input-group-btn
             button(id='ajax' type="button" class="btn btn-default") ajax提交
             button(id='newpage' type="button" class="btn btn-default") 刷新提交
         div.input-group#vs

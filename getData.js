@@ -31,7 +31,7 @@ function getData(user) {
                 }
                 weekDatas = _.chunk(dayDatas, 7);
                 dayDatas = _.filter(dayDatas, function(o) { //过滤出2016年的数据
-                    return (o.date.split('-'))[0] == '2016';
+                    return (o.date.split('-'))[0] == '2017';
                 })
                 monthDatas = _.groupBy(dayDatas, function(o) {
                     return (o.date.split('-'))[1];
