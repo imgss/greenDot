@@ -16,7 +16,7 @@ greenDot
 * 2017-5-7  mongoDb储存user数据，首先从db读取，如果没有，再去请求。
 * 2017-10-9 实现可以查看多个年度的信息(2016,2017等)
 
-##应用截图
+## 应用截图
 
 图中的数据分别来自imgss,阮一峰和张鑫旭:grin:
 
@@ -26,13 +26,13 @@ greenDot
 <img src="https://github.com/imgss/greenDot/raw/master/image/pk.PNG" alt="pk模式" width='500px'>
 <img src="https://github.com/imgss/greenDot/raw/master/image/users.PNG" alt="含个人信息" width='500px'>
 
-##ToDo
+## ToDo
 
 * 优化界面
 * 增加数据库缓存来提高响应速度
 * 增加支持图表种类  
 
-##体验一下
+## 体验一下
 
 1. git clone https://github.com/imgss/greenDot.git
 
