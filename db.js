@@ -25,6 +25,8 @@ function read(user, year, callback){
     MongoClient.connect(url, function(err, db) {
         if(err){
             console.log('未开启mongodb')
+            callback(null);
+            return;
         }
         var collection = db.collection('userData');
         collection.findOne({user, year},function(err, doc) {
